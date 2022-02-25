@@ -1,0 +1,31 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        type: choice
+        required: true
+        description: Bump version number    
+        options: [major, minor, patch]
+        default: patch
+  pull_request:
+    types: [closed]
+jobs:
+  bump:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
+          gh pr create --title "Bump to ${_##*/}"
+          gh pr merge --auto
+  release:
+    if: github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    steps:
+      - run: >-
+          gh release create
+          --generate-notes
+          --target="${GITHUB_REF##*/}"
+          --title="CML ${GITHUB_REF##*/}"
