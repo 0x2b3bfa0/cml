@@ -8,7 +8,8 @@ on:
         description: Bump version number    
         options: [major, minor, patch]
         default: patch
-  pull_request:
+  push:
+    branches: [master]
 jobs:
   bump:
     if: github.event_name == 'workflow_dispatch'
@@ -27,7 +28,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
   release:
-    if: github.event_name == 'pull_request' #github.event.pull_request.merged #&& startsWith(github.event.pull_request.head.ref, 'bump/')
+    if: github.event_name == 'push' #github.event.pull_request.merged #&& startsWith(github.event.pull_request.head.ref, 'bump/')
     runs-on: ubuntu-latest
     steps:
       - run: echo "$js" && false
