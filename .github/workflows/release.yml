@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - run: |
           git config --global user.name Olivaw[bot]
           git config --global user.email 64868532+iterative-olivaw@users.noreply.github.com
@@ -29,6 +31,7 @@ jobs:
     if: github.event.pull_request.merged #&& startsWith(github.event.pull_request.head.ref, 'bump/')
     runs-on: ubuntu-latest
     steps:
+      - run: ecjho ${{ github.event.pull_request.head.ref }}
       - run: >-
           gh release create
           --target=${GITHUB_REF##*/}
