@@ -1,0 +1,6 @@
+on: push
+jobs:
+  useless:
+    runs-on: ubuntu-latest
+    steps:
+      - run: true
