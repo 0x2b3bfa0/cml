@@ -17,20 +17,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          git config --global user.name "Olivaw[bot]"
-          git config --global user.email "olivaw@iterative.ai"
+          git config --global user.name Olivaw[bot]
+          git config --global user.email olivaw@iterative.ai
           git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
-          git push --force --set-upstream origin --follow-tags $_ # remove --force
+          git push --set-upstream origin --follow-tags $_
           gh pr create --title "Bump to ${_##*/}" --fill
           gh pr merge --auto --merge
         env:
           GITHUB_TOKEN: ${{github.token }}
   release:
-    if: github.event.pull_request.merged
+    if: github.event.pull_request.merged && startsWith(github.event.pull_request.head.ref, 'refs/heads/bump/')
     runs-on: ubuntu-latest
     steps:
       - run: >-
           gh release create
+          --target=${GITHUB_REF##*/}
+          --title="CML ${GITHUB_REF##*/}
           --generate-notes
-          --target="${GITHUB_REF##*/}"
-          --title="CML ${GITHUB_REF##*/}"
+          # --draft
+        env:
+          GITHUB_TOKEN: ${{github.token }}
