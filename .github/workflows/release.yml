@@ -22,6 +22,8 @@ jobs:
           git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
           gh pr create --title "Bump to ${_##*/}"
           gh pr merge --auto
+        env:
+          GITHUB_TOKEN: ${{github.token }}
   release:
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
