@@ -1,4 +1,4 @@
-on: workflow_dispatch
+on: push
 jobs:
   useless:
     runs-on: ubuntu-latest
