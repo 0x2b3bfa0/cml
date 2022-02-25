@@ -9,7 +9,6 @@ on:
         options: [major, minor, patch]
         default: patch
   pull_request:
-    types: [closed]
 jobs:
   bump:
     if: github.event_name == 'workflow_dispatch'
@@ -28,10 +27,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
   release:
-    if: github.event.pull_request.merged #&& startsWith(github.event.pull_request.head.ref, 'bump/')
+    #if: github.event.pull_request.merged #&& startsWith(github.event.pull_request.head.ref, 'bump/')
     runs-on: ubuntu-latest
     steps:
-      - run: ecjho ${{ github.event.pull_request.head.ref }}
+      - run: echo "$js" && false
+        env:
+          js: ${{ toJSON(github.event) }}
       - run: >-
           gh release create
           --target=${GITHUB_REF##*/}
