@@ -20,7 +20,7 @@ jobs:
           git config --global user.name "Olivaw[bot]"
           git config --global user.email "olivaw@iterative.ai"
           git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
-          git push --set-upstream origin $_
+          git push --force --set-upstream origin $_
           gh pr create --title "Bump to ${_##*/}" --fill
           gh pr merge --auto
         env:
