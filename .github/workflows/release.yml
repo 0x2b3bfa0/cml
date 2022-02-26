@@ -23,7 +23,8 @@ jobs:
           git config --global user.email 64868532+iterative-olivaw@users.noreply.github.com
           git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
           git push --set-upstream origin --follow-tags HEAD
-          gh pr create --title "Bump version to $(git describe --tags)" --fill
+          gh pr create --title "Bump version to $(git describe --tags)" --body "This pull request should be automatically merged after all the checks pass. If not, please merge[^1] it manually.\n[^1]: Not squash nor rebase, but **merge**."
+          while ! gh pr merge --merge; do sleep 10; done
         env:
           GITHUB_TOKEN: ${{ github.token }}
   release:
