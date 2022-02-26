@@ -10,6 +10,8 @@ on:
         default: patch
   pull_request:
     types: [closed]
+  check_suite:
+    types: [completed]
 jobs:
   bump:
     if: github.event_name == 'workflow_dispatch'
