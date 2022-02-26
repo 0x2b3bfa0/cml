@@ -17,9 +17,9 @@ jobs:
           git config --global user.name Olivaw[bot]
           git config --global user.email 64868532+iterative-olivaw@users.noreply.github.com
           git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
-          git push --set-upstream origin --follow-tags $_
+          git push --set-upstream origin --follow-tags HEAD
           gh pr create --title "Bump version to $(git describe --tags)" --fill
-          while ! gh pr merge --merge; do sleep 10; done
+          gh pr merge --merge --admin
           gh release create --generate-notes --draft {--target=,--title=CML\ }$(git describe --tags)
         env:
           GITHUB_TOKEN: ${{ github.token }}
