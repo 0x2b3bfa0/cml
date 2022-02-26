@@ -10,6 +10,7 @@ on:
         default: patch
 jobs:
   bump:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,9 +20,14 @@ jobs:
           git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
           git push --set-upstream origin --follow-tags HEAD
           gh pr create --title "Bump version to $(git describe --tags)" --fill
-          gh pr merge --admin --merge
-          gh release create --generate-notes --draft {--target=,--title=CML\ }$(git describe --tags)
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
-
+  release:
+    if: github.event.pull_request.merged && startsWith(github.head_ref, 'bump/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run:
+          gh release create --generate-notes --draft {--target=,--title=CML\ }${GITHUB_REF##*/}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
