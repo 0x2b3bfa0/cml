@@ -30,6 +30,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run:
-          gh release create --generate-notes --draft {--target=,--title=CML\ }${GITHUB_REF##*/}
+          gh release create --generate-notes --draft {--target=,--title=CML\ ,}${GITHUB_REF##*/}
         env:
           GITHUB_TOKEN: ${{ github.token }}
