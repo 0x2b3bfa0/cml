@@ -19,7 +19,7 @@ jobs:
           git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
           git push --set-upstream origin --follow-tags HEAD
           gh pr create --title "Bump version to $(git describe --tags)" --fill
-          gh pr merge --merge --admin
+          gh pr merge --admin --merge
           gh release create --generate-notes --draft {--target=,--title=CML\ }$(git describe --tags)
         env:
           GITHUB_TOKEN: ${{ github.token }}
