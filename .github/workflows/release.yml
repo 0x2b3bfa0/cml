@@ -10,6 +10,25 @@ on:
         default: patch
   push:
     branches: [master]
+  pull_request:
+    types: 
+    - assigned
+    - unassigned
+    - labeled
+    - unlabeled
+    - opened
+    - edited
+    - closed
+    - reopened
+    - synchronize
+    - converted_to_draft
+    - ready_for_review
+    - locked
+    - unlocked
+    - review_requested
+    - review_request_removed
+    - auto_merge_enabled
+    - auto_merge_disabled
 jobs:
   bump:
     if: github.event_name == 'workflow_dispatch'
@@ -27,8 +46,14 @@ jobs:
           gh pr merge --auto --merge
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "$event"
+        env:
+          event: ${{ toJson(github.event) }}
   release:
-    if: github.event_name == 'push' #github.event.pull_request.merged #&& startsWith(github.event.pull_request.head.ref, 'bump/')
+    if: github.event_name == 'invalid' #github.event.pull_request.merged #&& startsWith(github.event.pull_request.head.ref, 'bump/')
     runs-on: ubuntu-latest
     steps:
       - run: echo "$js" && false
