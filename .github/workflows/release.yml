@@ -8,8 +8,6 @@ on:
         description: Bump version number    
         options: [major, minor, patch]
         default: patch
-  check_suite:
-    types: [completed]
   pull_request:
     types: [closed]
 jobs:
@@ -24,15 +22,6 @@ jobs:
           git checkout -b bump/$(npm version ${{ github.event.inputs.bump }})
           git push --set-upstream origin --follow-tags HEAD
           gh pr create --title "Bump version to $(git describe --tags)" --fill
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-  merge:
-    if: github.event_name == 'check_suite'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: |
-          gh pr merge --merge
         env:
           GITHUB_TOKEN: ${{ github.token }}
   release:
