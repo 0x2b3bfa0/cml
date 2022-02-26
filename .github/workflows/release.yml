@@ -40,7 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run:
-          gh release create --generate-notes --draft {--target=,--title=CML\ ,}${GITHUB_REF##*/}
+      - run: gh release create --generate-notes --draft {--target=,--title=CML\ ,}$(basename ${{ github.head_ref }})
         env:
           GITHUB_TOKEN: ${{ github.token }}
