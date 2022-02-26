@@ -16,7 +16,7 @@ results and metrics — automatically on every pull request.
 
 ![](https://static.iterative.ai/img/cml/github_cloud_case_lessshadow.png) _An
 example report for a.  
-[neural style transfer model](https://github.com/iterative/cml_cloud_case)._
+[neural style tr ansfer model](https://github.com/iterative/cml_cloud_case)._
 
 CML principles:
 
