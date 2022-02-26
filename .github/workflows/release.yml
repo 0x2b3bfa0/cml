@@ -53,7 +53,7 @@ jobs:
         env:
           event: ${{ toJson(github.event) }}
   release:
-    if: github.event_name == 'invalid' #github.event.pull_request.merged #&& startsWith(github.event.pull_request.head.ref, 'bump/')
+    if: github.event_name == 'invalid' #github.event.pull_request.merged && startsWith(github.head_ref, 'bump/')
     runs-on: ubuntu-latest
     steps:
       - run: echo "$js" && false
