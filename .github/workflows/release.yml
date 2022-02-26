@@ -45,7 +45,7 @@ jobs:
           gh pr create --title "Bump version to ${_##*/}" --fill
           gh pr merge --auto --merge
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
   test:
     runs-on: ubuntu-latest
     steps:
